@@ -1,0 +1,143 @@
+<html ng-app="dp-app" ng-csp>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<link href="bootstrap.min.css" rel="stylesheet" media="screen">
+<style type="text/css">
+body{
+	width: 450px;
+	height: 500px;
+	font-family:Microsoft YaHei;
+}
+.container{
+	width: 430px;
+}
+.accordion-group {
+	width: 430px;
+}
+.event-header{
+	width: 390px;
+}
+#event-desc-input{
+	width: 370px;
+	height: 80px;
+}
+.s-icon {
+	width:50px;
+	height:50px;
+}
+.gmap {
+	width:200px;
+	height:200px;
+}
+.invitee {
+	float: left;
+	margin-right: 8px;
+	margin-bottom: 8px;
+}
+
+input[type='text']{
+	height:30px;
+}
+
+.add-friend ,.description{
+	margin-top:10px;
+}
+ul {
+	list-style-type: none;
+	margin:0px;
+	padding:0px;
+}
+.alert-success{
+	width: 300px;
+}
+
+</style>
+<div class="outTab">
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="#newInvitation" data-toggle="tab">新邀請</a>
+		</li>
+		<li>
+			<a href="#openInvitation" data-toggle="tab">邀請</a>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<div class="container tab-pane fade in active" id="newInvitation" ng-controller='InviteControllor'>
+					<div id="shopinfo">
+				<div class="accordion-group">
+					<div class="accordion-heading">
+						<a class="accordion-toggle" data-toggle="collapse" href="#shop-detail">
+							当前商户：{{shop.shopName}}
+						</a>
+					</div>
+					<div id="shop-detail" class="accordion-body collapse in">
+						<div class="accordion-inner">
+							商户地址:{{shop.address}}<br>
+							商户电话:{{shop.phoneNo}}<br>
+
+							<img class="gmap img-polaroid" src="http://maps.googleapis.com/maps/api/staticmap?center={{shop.latitude}},{{shop.longtitude}}&zoom=17&size=400x400&maptype=roadmap&markers=color:blue%7Clabel:S%7C{{shop.latitude}},{{shop.longtitude}}&sensor=false"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="add-friend">
+				<div class="description input-prepend">
+					<span class="add-on"><i class="icon-tag"></i></span>
+					<input type="text" id="add-description" ng-model="description" value="在{{shop.shopName}}吃饭"></input>
+				</div>
+				<form class="form-inline">
+					<div class="input-prepend">
+						<span class="add-on">@</span>
+						<input type="text" id="add-friend-input"></input>
+					</div>
+					<button type="submit"  ng-click="sendInvitation()" class="btn">发送邀请</button>
+				</form>
+				<div class="alert alert-success" ng-show="weiboSuccess">
+				  <button type="button" class="close" data-dismiss="alert">×</button>
+				  成功发送微博～
+				</div>
+
+			</div>
+			<div class="invitee-friends">
+				<ul>
+					<li class="invitee" ng-repeat="invitee in invitees">
+						<img class='s-icon img-polaroid' src={{invitee.user.weiboIcon}} />
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="container tab-pane fade" id="openInvitation" ng-controller="OpenInvitationController" >
+			<div class="invatations accordion" id="myInvitation">
+				<div ng-repeat="i in openInvitations" class="accordion-group">
+					<div class="accordion-heading">
+				      <a class="accordion-toggle" data-toggle="collapse"  href="#invite{{$index}}">
+				        {{i.inviter.user.weiboName}}要吃饭ww：{{i.description}}
+				      </a>
+				    </div>
+				    <div id="invite{{$index}}" class="accordion-body collapse">
+				      <div class="accordion-inner">
+				      	邀请:
+				        <div class="persons">
+				        	<div np-repeat="p in invite.invitees">
+				        		<img/>
+				        	</div>
+				      </div>
+				    </div>
+				</div>
+			</div>
+			</div>
+			<div class="invatations" id="recievedInvitation">
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="Settings.js"></script>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="bootstrap.min.js"></script>
+<script src="angular.js"></script>
+<script src="angular-resource.js"></script>
+<script src="services.js"></script>
+<script src="controller.js"></script>
+</div>
+

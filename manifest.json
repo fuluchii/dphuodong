@@ -1,0 +1,33 @@
+{  
+  "name": "dp-invitation",  
+  "version": "0.0.1",  
+  "description": "invite friends", 
+  "manifest_version": 2, 
+  "browser_action": {  
+    "default_icon": "icon.png" ,
+    "default_title": "dp-invitation",
+    "default_popup": "popup.html"
+  },
+  "content_security_policy": "script-src 'self' https://api.weibo.com http://localhost:8087; object-src 'self' http://localhost https://api.weibo.com ;",
+  "permissions": [
+    "storage",
+    "https://api.weibo.com/2/",
+    "http://localhost/",
+    "http://192.168.32.84/"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  }, 
+  "content_scripts": [
+    {
+      "matches": ["http://www.dianping.com/shop/*"],
+      "js": ["jquery.min.js", "crawler.js"]
+    }
+    ,
+    {
+      "matches": ["http://fuluchii.info/*"],
+      "js": ["gettoken.js"]
+    }
+  ],
+  "options_page": "options.html"
+}   
