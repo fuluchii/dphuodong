@@ -27,8 +27,12 @@ shop.phoneNo=$('strong[itemprop="tel"]').text();
 shop.url = window.location.href;
 shop.latitude=poi.lat;
 shop.longtitude=poi.lng;
+shop.picUrlList=[$('img[itemprop="photo"]').attr('src')];
+shop.shopId=new RegExp('shopID:(.+),').exec(body)[1].trim();
 
 var request={};
 request.sender="contentscript";
 request.body=shop;
 chrome.extension.sendRequest(request);
+
+

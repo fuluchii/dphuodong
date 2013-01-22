@@ -12,11 +12,12 @@ angular.module('userService',[],function($provide){
 			mapUser:function(user){
 				var res = {
 					user:{
-						weiboId:user.id,
+						weiboId:user.id.toString(),
 	                    weiboIcon:user.avatar_large,
 	                    weiboName : user.screen_name,
 	                    weiboIconSmall: user.profile_image_url
-	                }
+	                },
+	                status:'unknown'
 				}
 				return res
 			}
@@ -76,7 +77,7 @@ angular.module('inviteService', ['ngResource'],function($provide){
 		$provide.factory('eventService',function($http){
 		return {
 			getOpenInvitationList:function(weiboId){
-				return $http.get('http://192.168.32.84:8080/resource/invitation/open?weiboId='+weiboId).then(function(response){
+				return $http.get('http://50.116.7.37:3000/resource/invitation/open/weiboId/'+weiboId+'/page/0').then(function(response){
 					return response
 				})
 			},
@@ -91,18 +92,40 @@ angular.module('inviteService', ['ngResource'],function($provide){
 					return response
 				})
 			},
-			getEvent:function(event){
+			 sendEvent:function(event){
 				return $http({
     					method: 'POST',
-    					url: 'http://192.168.32.84:8080/resource/invitation/',
+    					url: 'http://50.116.7.37:3000/resource/invitation',
     					data: event,
    						 headers: {'Content-Type': 'application/json;charset=UTF-8'}
 					}).then(function(response){
 					return response
 				})
+			},
+			sendReply:function(reply,weiboId,id,date){
+				
+				return $http({
+    					method: 'POST',
+    					url: 'http://50.116.7.37:3000/resource/invitation/'+id+'/reply',
+    					data: $.param({content:reply,user:weiboId,date:date}),
+   						 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+					}).then(function(response){
+					return response
+				})
+			},
+			sendStatus:function(data,id){
+				
+				return $http({
+    					method: 'POST',
+    					url: 'http://50.116.7.37：3000/resource/invitation/'+id+'/status',
+    					data: data,
+   						 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
+					}).then(function(response){
+					return response
+				})
 			}
 			// getEvent:function(event){
-			// 	return $http.post('http://192.168.32.84:8080/resource/invitation/',event).then(function(response){
+			// 	return $http.post('http://50.116.7.37:3000/resource/invitation/',event).then(function(response){
 			// 		return response
 			// 	})
 			// }
